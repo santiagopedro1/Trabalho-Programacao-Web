@@ -6,8 +6,6 @@ let produtos = [
 	{ id: '5', nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
 ]
 
-let logs = []
-
 function attTabela() {
 	let tabela = document.getElementById('corpoTabela')
 	for (let i = 0; i < produtos.length; i++) {

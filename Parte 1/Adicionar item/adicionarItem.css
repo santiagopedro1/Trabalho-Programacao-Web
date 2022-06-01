@@ -1,0 +1,13 @@
+.form {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.form__item {
+	text-align: center;
+}
+
+.form__button {
+	align-self: center;
+}
