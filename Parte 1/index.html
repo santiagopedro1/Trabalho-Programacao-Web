@@ -8,8 +8,28 @@
 
 		<title>Inventory Manager</title>
 	</head>
-	<body>
+	<body onload="attTabela()">
 		<h1>Inventory Manager</h1>
+		<div class="botoes">
+			<button>Adicionar item</button>
+			<button>Remover item</button>
+			<button>Logs</button>
+		</div>
+
+		<div class="tabelaWrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Marca</th>
+						<th>Preço</th>
+						<th>Quantidade</th>
+					</tr>
+				</thead>
+				<tbody id="corpoTabela"></tbody>
+			</table>
+		</div>
 
 		<script src="./index.js"></script>
 	</body>
