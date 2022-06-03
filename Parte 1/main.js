@@ -1,9 +1,9 @@
 let produtos = [
-	{ id: '1', nome: 'Produto 1', marca: 'Marca 1', preco: 10.4, qtd: 1 },
-	{ id: '2', nome: 'Produto 2', marca: 'Marca 2', preco: 20, qtd: 2 },
-	{ id: '3', nome: 'Produto 3', marca: 'Marca 3', preco: 30, qtd: 3 },
-	{ id: '4', nome: 'Produto 4', marca: 'Marca 4', preco: 40, qtd: 4 },
-	{ id: '5', nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
+	{ id: 1, nome: 'Produto 1', marca: 'Marca 1', preco: 10.4, qtd: 1 },
+	{ id: 2, nome: 'Produto 2', marca: 'Marca 2', preco: 20, qtd: 2 },
+	{ id: 3, nome: 'Produto 3', marca: 'Marca 3', preco: 30, qtd: 3 },
+	{ id: 4, nome: 'Produto 4', marca: 'Marca 4', preco: 40, qtd: 4 },
+	{ id: 5, nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
 ]
 
 let logs = []
@@ -25,15 +25,19 @@ function attTabela() {
 }
 
 function addProduto() {
-	let pid = document.getElementById('pid').value
-	let pnome = document.getElementById('pnome').value
-	let pmarca = document.getElementById('pmarca').value
-	let ppreco = document.getElementById('ppreço').value
-	let pqtd = document.getElementById('pqtd').value
+	let inputs = document.getElementsByTagName('input')
 
-	produtos.push({ id: pid, nome: pnome, marca: pmarca, preco: ppreco, qtd: pqtd })
+	let id = Number(inputs[0].value)
+	let nome = inputs[1].value
+	let marca = inputs[2].value
+	let preco = Number(inputs[3].value)
+	let qtd = Number(inputs[4].value)
 
-	addLogs('Adicionado', { id: pid, nome: pnome, marca: pmarca, preco: ppreco, qtd: pqtd })
+	if (isNaN(id) || isNaN(preco) || isNaN(qtd)) return alert('ID, Preço e Quantidade devem ser números')
+
+	produtos.push({ id: id, nome: nome, marca: marca, preco: preco, qtd: qtd })
+
+	addLogs('Adicionado', { id: id, nome: nome, marca: marca, preco: preco, qtd: qtd })
 }
 
 function removerProduto(alvo) {
@@ -46,4 +50,5 @@ function addLogs(tipo, pacote) {
 	tipo === 'Adicionado'
 		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} em ${new Date().toLocaleString()}`)
 		: logs.push(`Removido: ${pacote.qtd} unidades do produto ${pacote.id} - ${pacote.nome} - ${pacote.marca} em ${new Date().toLocaleString()}`)
+	console.log(logs)
 }
