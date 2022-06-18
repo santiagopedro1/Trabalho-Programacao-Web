@@ -1,0 +1,44 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	line-height: 1.4;
+	--eerie-black: hsla(0, 0%, 11%, 1);
+	--charcoal: hsla(200, 26%, 25%, 1);
+	--cadet: hsla(202, 17%, 42%, 1);
+	--powder-blue: hsla(177, 33%, 79%, 1);
+	--ghost-white: hsla(240, 29%, 97%, 1);
+}
+
+body {
+	background-color: #dcdcdc;
+}
+
+.tabs {
+	display: flex;
+	background-color: var(--eerie-black);
+	align-items: center;
+	justify-content: center;
+}
+
+.tab {
+	text-transform: uppercase;
+	cursor: pointer;
+	font-weight: 700;
+	padding: 1.2rem 1.5rem;
+	color: white;
+	transition: box-shadow 0.2s ease-in-out, color 0.2s;
+}
+
+.tabs a {
+	text-decoration: none;
+	color: white;
+}
+
+.tabs .atual {
+	box-shadow: 0 -0.5rem inset var(--cadet);
+	color: var(--cadet);
+	pointer-events: none;
+}
