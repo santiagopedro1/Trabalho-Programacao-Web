@@ -6,13 +6,20 @@ let produtos = [
 	{ id: 5, nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
 ]
 
-let logs = ['teste 1', 'teste 2', 'teste 3', 'teste 4']
+let logs = [
+	'Adicionado: ID: 1 - Produto 1 - Marca 1 - R$ 10.4 - 1 em 6/22/2022, 7:04:16 PM',
+	'Adicionado: ID: 2 - Produto 2 - Marca 2 - R$ 20 - 2 em 6/22/2022, 7:04:16 PM',
+	'Adicionado: ID: 3 - Produto 3 - Marca 3 - R$ 30 - 3 em 6/22/2022, 7:04:16 PM',
+	'Adicionado: ID: 4 - Produto 4 - Marca 4 - R$ 40 - 4 em 6/22/2022, 7:04:16 PM',
+	'Adicionado: ID: 5 - Produto 5 - Marca 5 - R$ 50 - 5 em 6/22/2022, 7:04:16 PM'
+]
 
-function popularTabela() {
+function popularTabela(onde) {
 	let tabela = document.getElementById('corpoTabela')
-	for (let i = 0; i < produtos.length; i++) {
-		let produto = produtos[i]
-		tabela.innerHTML += `
+	if (onde === 'visualização') {
+		for (let i = 0; i < produtos.length; i++) {
+			let produto = produtos[i]
+			tabela.innerHTML += `
         <tr>
             <td>${produto.id}</td>
             <td>${produto.nome}</td>
@@ -21,6 +28,21 @@ function popularTabela() {
             <td>${produto.qtd}</td>
         </tr>
         `
+		}
+	} else {
+		for (let i = 0; i < produtos.length; i++) {
+			let produto = produtos[i]
+			tabela.innerHTML += `
+        <tr>
+            <td>${produto.id}</td>
+            <td>${produto.nome}</td>
+            <td>${produto.marca}</td>
+            <td>R$ ${produto.preco}</td>
+            <td>${produto.qtd}</td>
+			<td><button onclick="removerProduto(${i})">🗑️</button></td>
+        </tr>
+        `
+		}
 	}
 }
 
@@ -42,6 +64,7 @@ function addProduto() {
 
 function removerProduto(alvo) {
 	// Código para remover um produto
+	console.log(produtos[alvo])
 
 	addLogs('Removido', { id: alvo.pid, nome: alvo.pnome, marca: alvo.pmarca, qtd: alvo.pqtd })
 }
