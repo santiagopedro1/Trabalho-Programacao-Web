@@ -6,9 +6,9 @@ let produtos = [
 	{ id: 5, nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
 ]
 
-let logs = []
+let logs = ['teste 1', 'teste 2', 'teste 3', 'teste 4']
 
-function attTabela() {
+function popularTabela() {
 	let tabela = document.getElementById('corpoTabela')
 	for (let i = 0; i < produtos.length; i++) {
 		let produto = produtos[i]
@@ -50,5 +50,11 @@ function addLogs(tipo, pacote) {
 	tipo === 'Adicionado'
 		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} em ${new Date().toLocaleString()}`)
 		: logs.push(`Removido: ${pacote.qtd} unidades do produto ${pacote.id} - ${pacote.nome} - ${pacote.marca} em ${new Date().toLocaleString()}`)
-	console.log(logs)
+}
+
+function popularLogs() {
+	let logEl = document.getElementById('logs')
+	for (let i = 0; i < logs.length; i++) {
+		logEl.innerHTML += `<li class="logItem" >${logs[i]}</li>`
+	}
 }
