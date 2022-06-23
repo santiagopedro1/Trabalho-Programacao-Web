@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="../global.css" />
 		<title>Inventory Manager - Remover Item</title>
 	</head>
-	<body onload="popularTabela()">
+	<body onload="popularTabela('remover')">
 		<header>
 			<nav class="tabs">
 				<a class="tab" href="../">Visualização</a>
@@ -23,7 +23,7 @@
 		<h1>Produtos</h1>
 
 		<div class="tabelaWrapper">
-			<table>
+			<table id="tabela">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -31,6 +31,7 @@
 						<th>Marca</th>
 						<th>Preço</th>
 						<th>Quantidade</th>
+						<th>Ação</th>
 					</tr>
 				</thead>
 				<tbody id="corpoTabela"></tbody>

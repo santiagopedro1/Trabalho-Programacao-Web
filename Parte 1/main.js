@@ -15,11 +15,11 @@ let logs = [
 ]
 
 function popularTabela(onde) {
-	let tabela = document.getElementById('corpoTabela')
+	let corpoTabela = document.getElementById('corpoTabela')
 	if (onde === 'visualização') {
 		for (let i = 0; i < produtos.length; i++) {
 			let produto = produtos[i]
-			tabela.innerHTML += `
+			corpoTabela.innerHTML += `
         <tr>
             <td>${produto.id}</td>
             <td>${produto.nome}</td>
@@ -32,7 +32,7 @@ function popularTabela(onde) {
 	} else {
 		for (let i = 0; i < produtos.length; i++) {
 			let produto = produtos[i]
-			tabela.innerHTML += `
+			corpoTabela.innerHTML += `
         <tr>
             <td>${produto.id}</td>
             <td>${produto.nome}</td>

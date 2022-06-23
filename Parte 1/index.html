@@ -8,7 +8,7 @@
 
 		<title>Inventory Manager - Visualização</title>
 	</head>
-	<body onload="popularTabela()">
+	<body onload="popularTabela('visualização')">
 		<header>
 			<nav class="tabs">
 				<a class="tab atual" href="#">Visualização</a>
@@ -24,7 +24,7 @@
 		<h1>Produtos</h1>
 
 		<div class="tabelaWrapper">
-			<table>
+			<table id="tabela">
 				<thead>
 					<tr>
 						<th>ID</th>
