@@ -1,19 +1,3 @@
-let produtos = [
-	{ id: 1, nome: 'Produto 1', marca: 'Marca 1', preco: 10.4, qtd: 1 },
-	{ id: 2, nome: 'Produto 2', marca: 'Marca 2', preco: 20, qtd: 2 },
-	{ id: 3, nome: 'Produto 3', marca: 'Marca 3', preco: 30, qtd: 3 },
-	{ id: 4, nome: 'Produto 4', marca: 'Marca 4', preco: 40, qtd: 4 },
-	{ id: 5, nome: 'Produto 5', marca: 'Marca 5', preco: 50, qtd: 5 }
-]
-
-let logs = [
-	'Adicionado: ID: 1 - Produto 1 - Marca 1 - R$ 10.4 - 1 em 6/22/2022, 7:04:16 PM',
-	'Adicionado: ID: 2 - Produto 2 - Marca 2 - R$ 20 - 2 em 6/22/2022, 7:04:16 PM',
-	'Adicionado: ID: 3 - Produto 3 - Marca 3 - R$ 30 - 3 em 6/22/2022, 7:04:16 PM',
-	'Adicionado: ID: 4 - Produto 4 - Marca 4 - R$ 40 - 4 em 6/22/2022, 7:04:16 PM',
-	'Adicionado: ID: 5 - Produto 5 - Marca 5 - R$ 50 - 5 em 6/22/2022, 7:04:16 PM'
-]
-
 function popularTabela(onde) {
 	let corpoTabela = document.getElementById('corpoTabela')
 	if (onde === 'visualização') {
@@ -71,7 +55,7 @@ function removerProduto(alvo) {
 
 function addLogs(tipo, pacote) {
 	tipo === 'Adicionado'
-		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} em ${new Date().toLocaleString()}`)
+		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} itens em ${new Date().toLocaleString()}`)
 		: logs.push(`Removido: ${pacote.qtd} unidades do produto ${pacote.id} - ${pacote.nome} - ${pacote.marca} em ${new Date().toLocaleString()}`)
 }
 
