@@ -1,5 +1,28 @@
+if (!window.localStorage.getItem('produtos')) {
+	window.localStorage.setItem(
+		'produtos',
+		JSON.stringify([
+			{ id: 1, nome: 'Notebook', marca: 'Dell', preco: 2000, qtd: 10 },
+			{ id: 2, nome: 'Mouse', marca: 'Logitech', preco: 50, qtd: 20 },
+			{ id: 3, nome: 'Teclado', marca: 'Logitech', preco: 100, qtd: 30 }
+		])
+	)
+	// prettier-ignore
+	window.localStorage.setItem(
+		'logs',
+		JSON.stringify([
+		'Adicionado: ID: 1 - Notebook - Marca: Dell - R$ 2000 - 10 itens em 01/01/2020 00:00:00',
+		'Adicionado: ID: 2 - Mouse - Marca: Logitech - R$ 50 - 20 itens em 01/01/2020 00:00:00',
+		'Adicionado: ID: 3 - Teclado - Marca: Logitech - R$ 100 - 30 itens em 01/01/2020 00:00:00'
+	])
+	)
+}
+let produtos = JSON.parse(window.localStorage.getItem('produtos'))
+let logs = JSON.parse(window.localStorage.getItem('logs'))
+
 function popularTabela(onde) {
 	let corpoTabela = document.getElementById('corpoTabela')
+	corpoTabela.innerHTML = ''
 	if (onde === 'visualização') {
 		for (let i = 0; i < produtos.length; i++) {
 			let produto = produtos[i]
@@ -32,6 +55,10 @@ function popularTabela(onde) {
 
 function addProduto() {
 	let inputs = document.getElementsByTagName('input')
+	let PIDs = []
+	produtos.forEach(element => {
+		PIDs.push(element.id)
+	})
 
 	let id = Number(inputs[0].value)
 	let nome = inputs[1].value
@@ -41,22 +68,45 @@ function addProduto() {
 
 	if (isNaN(id) || isNaN(preco) || isNaN(qtd)) return alert('ID, Preço e Quantidade devem ser números')
 
-	produtos.push({ id: id, nome: nome, marca: marca, preco: preco, qtd: qtd })
+	if (PIDs.includes(id)) return alert('ID já existe')
 
-	addLogs('Adicionado', { id: id, nome: nome, marca: marca, preco: preco, qtd: qtd })
+	if (nome === '' || marca === '') return alert('Nome e Marca são obrigatórios')
+
+	produtos.push({ id, nome, marca, preco, qtd })
+	addLogs('Adicionado', { id, nome, marca, preco, qtd })
+	addLocalStorage()
+	popularTabela('adicionar')
+
+	let newProduto = { id: id, nome: nome, marca: marca, preco: preco, qtd: qtd }
+
+	produtos.push(newProduto)
+
+	addLogs('Adicionado', newProduto)
+	addLocalStorage()
+	return alert('Produto adicionado com sucesso')
 }
 
 function removerProduto(alvo) {
-	// Código para remover um produto
-	console.log(produtos[alvo])
+	qtdRemover = prompt('Quantas unidades deseja remover?\n(Número maior que a quantidade em estoque removerá todo o estoque)')
+	if (isNaN(qtdRemover)) return alert('Quantidade deve ser número')
+	if (qtdRemover === '') return alert('Quantidade não pode ser vazia')
+	if (qtdRemover >= produtos[alvo].qtd) {
+		addLogs('Removido', produtos[alvo], produtos[alvo].qtd)
+		produtos.splice(alvo, 1)
+	} else {
+		produtos[alvo].qtd -= qtdRemover
+		addLogs('Removido', produtos[alvo], qtdRemover)
+	}
 
-	addLogs('Removido', { id: alvo.pid, nome: alvo.pnome, marca: alvo.pmarca, qtd: alvo.pqtd })
+	addLocalStorage()
+	popularTabela('remover')
+	return alert('Produto removido com sucesso')
 }
 
-function addLogs(tipo, pacote) {
+function addLogs(tipo, pacote, qtdRemovida) {
 	tipo === 'Adicionado'
-		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} itens em ${new Date().toLocaleString()}`)
-		: logs.push(`Removido: ${pacote.qtd} unidades do produto ${pacote.id} - ${pacote.nome} - ${pacote.marca} em ${new Date().toLocaleString()}`)
+		? logs.push(`Adicionado: ID: ${pacote.id} - ${pacote.nome} - Marca: ${pacote.marca} - R$ ${pacote.preco} - ${pacote.qtd} itens em ${new Date().toLocaleString('pt-BR')}`)
+		: logs.push(`Removido: ${qtdRemovida} unidades do produto ID: ${pacote.id} - ${pacote.nome} - Marca: ${pacote.marca} em ${new Date().toLocaleString('pt-BR')}`)
 }
 
 function popularLogs() {
@@ -65,3 +115,10 @@ function popularLogs() {
 		logEl.innerHTML += `<li class="logItem" >${logs[i]}</li>`
 	}
 }
+
+function addLocalStorage() {
+	localStorage.setItem('produtos', JSON.stringify(produtos))
+	localStorage.setItem('logs', JSON.stringify(logs))
+}
+
+// window.localStorage.clear()

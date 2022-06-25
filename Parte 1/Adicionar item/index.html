@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link rel="stylesheet" href="../global.css" />
+		<script defer src="../main.js"></script>
 
 		<title>Inventory Manager - Adicionar Item</title>
 	</head>
@@ -23,7 +24,7 @@
 
 		<form action="javascript:void(0)" id="addItemForm" class="form" autocomplete="off">
 			<div class="form__item">
-				<h4>PID</h4>
+				<h4>ID do produto</h4>
 				<input required id="pid" type="text" />
 			</div>
 			<div class="form__item">
@@ -31,20 +32,18 @@
 				<input required id="pnome" type="text" />
 			</div>
 			<div class="form__item">
-				<h4>Marca</h4>
+				<h4>Marca do produto</h4>
 				<input required id="pmarca" type="text" />
 			</div>
 			<div class="form__item">
-				<h4>Preço</h4>
+				<h4>Preço de produto</h4>
 				<input required id="ppreço" type="text" />
 			</div>
 			<div class="form__item">
-				<h4>Quantidade</h4>
+				<h4>Quantidade do produto</h4>
 				<input required id="pqtd" type="text" />
 			</div>
 			<button class="form__button" type="submit" onclick="addProduto()">Adicionar item</button>
 		</form>
-
-		<script src="../main.js"></script>
 	</body>
 </html>
