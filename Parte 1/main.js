@@ -88,19 +88,21 @@ function addProduto() {
 
 function removerProduto(alvo) {
 	qtdRemover = prompt('Quantas unidades deseja remover?\n(Número maior que a quantidade em estoque removerá todo o estoque)')
-	if (isNaN(qtdRemover)) return alert('Quantidade deve ser número')
-	if (qtdRemover === '') return alert('Quantidade não pode ser vazia')
-	if (qtdRemover >= produtos[alvo].qtd) {
-		addLogs('Removido', produtos[alvo], produtos[alvo].qtd)
-		produtos.splice(alvo, 1)
-	} else {
-		produtos[alvo].qtd -= qtdRemover
-		addLogs('Removido', produtos[alvo], qtdRemover)
-	}
+	if (qtdRemover != null) {
+		if (isNaN(qtdRemover)) return alert('Quantidade deve ser um número')
+		if (qtdRemover === '') return alert('Quantidade não pode ser vazia')
+		if (qtdRemover >= produtos[alvo].qtd) {
+			addLogs('Removido', produtos[alvo], produtos[alvo].qtd)
+			produtos.splice(alvo, 1)
+		} else {
+			produtos[alvo].qtd -= qtdRemover
+			addLogs('Removido', produtos[alvo], qtdRemover)
+		}
 
-	addLocalStorage()
-	popularTabela('remover')
-	return alert('Produto removido com sucesso')
+		addLocalStorage()
+		popularTabela('remover')
+		return alert('Produto removido com sucesso')
+	} else return
 }
 
 function addLogs(tipo, pacote, qtdRemovida) {
@@ -110,6 +112,7 @@ function addLogs(tipo, pacote, qtdRemovida) {
 }
 
 function popularLogs() {
+	logs.reverse()
 	let logEl = document.getElementById('logs')
 	for (let i = 0; i < logs.length; i++) {
 		logEl.innerHTML += `<li class="logItem" >${logs[i]}</li>`

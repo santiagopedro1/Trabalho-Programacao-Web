@@ -22,26 +22,28 @@
 			</nav>
 		</header>
 
+		<h1>Adicionar Itens</h1>
+
 		<form action="javascript:void(0)" id="addItemForm" class="form" autocomplete="off">
 			<div class="form__item">
 				<h4>ID do produto</h4>
-				<input required id="pid" type="text" />
+				<input required id="pid" type="text" placeholder="ID(número)" />
 			</div>
 			<div class="form__item">
 				<h4>Nome do produto</h4>
-				<input required id="pnome" type="text" />
+				<input required id="pnome" type="text" placeholder="Nome" />
 			</div>
 			<div class="form__item">
 				<h4>Marca do produto</h4>
-				<input required id="pmarca" type="text" />
+				<input required id="pmarca" type="text" placeholder="Marca" />
 			</div>
 			<div class="form__item">
 				<h4>Preço de produto</h4>
-				<input required id="ppreço" type="text" />
+				<input required id="ppreço" type="text" placeholder="Preço(número)" />
 			</div>
 			<div class="form__item">
 				<h4>Quantidade do produto</h4>
-				<input required id="pqtd" type="text" />
+				<input required id="pqtd" type="text" placeholder="Quantidade(número)" />
 			</div>
 			<button class="form__button" type="submit" onclick="addProduto()">Adicionar item</button>
 		</form>

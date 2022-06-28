@@ -8,12 +8,19 @@
 	--eerie-black: hsla(0, 0%, 11%, 1);
 	--charcoal: hsla(200, 26%, 25%, 1);
 	--cadet: hsla(202, 17%, 42%, 1);
-	--powder-blue: hsla(177, 33%, 79%, 1);
-	--ghost-white: hsla(240, 29%, 97%, 1);
 }
 
 body {
 	background-color: #dcdcdc;
+}
+
+h1 {
+	text-align: center;
+	/* make it look cool */
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: var(--eerie-black);
+	margin-bottom: 1rem;
 }
 
 .tabs {
@@ -34,12 +41,12 @@ body {
 
 .tabs a {
 	text-decoration: none;
-	color: white;
+	color: hsl(205, 58%, 56%);
 }
 
 .tabs .atual {
-	box-shadow: 0 -0.5rem inset var(--cadet);
-	color: var(--cadet);
+	box-shadow: 0 -0.5rem inset ghostwhite;
+	color: ghostwhite;
 	pointer-events: none;
 }
 
@@ -82,7 +89,14 @@ table thead th:nth-child(odd) {
 }
 
 table tr:nth-child(even) {
-	background: var(--powder-blue);
+	background: powderblue;
+}
+
+table tr td button {
+	background: none;
+	border: none;
+	font-size: 1.2rem;
+	cursor: pointer;
 }
 
 /* Responsive */
@@ -164,6 +178,18 @@ table tr:nth-child(even) {
 	text-align: center;
 }
 
+.form__item h4 {
+	margin: 1rem 0;
+}
+
+.form__item input {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
 .form__button {
 	align-self: center;
 	padding: 0.5rem 1rem;
@@ -174,5 +200,6 @@ table tr:nth-child(even) {
 
 .logItem {
 	margin: 1.5rem 3rem;
-	color: red;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
