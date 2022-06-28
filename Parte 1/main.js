@@ -72,17 +72,10 @@ function addProduto() {
 
 	if (nome === '' || marca === '') return alert('Nome e Marca são obrigatórios')
 
-	produtos.push({ id, nome, marca, preco, qtd })
+	produtos.push({ id: id, nome: nome, marca: marca, preco: preco, qtd: qtd })
 	addLogs('Adicionado', { id, nome, marca, preco, qtd })
 	addLocalStorage()
-	popularTabela('adicionar')
 
-	let newProduto = { id: id, nome: nome, marca: marca, preco: preco, qtd: qtd }
-
-	produtos.push(newProduto)
-
-	addLogs('Adicionado', newProduto)
-	addLocalStorage()
 	return alert('Produto adicionado com sucesso')
 }
 
