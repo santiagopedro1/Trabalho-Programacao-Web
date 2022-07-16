@@ -1,22 +1,32 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
-defineProps({
-    isAdding: Boolean,
-    isEditing: Boolean
-})
+let isAdding = ref(false)
 
-const produto_alvo = ref({ id: '', tipo: '', marca: '', preço: '', quantidade: '' })
+let produto_alvo = ref({ id: '', tipo: '', marca: '', preço: '', quantidade: '' })
+
+function onClick() {
+    isAdding.value = true
+}
 
 function onSubmit() {
-    isAdding ? console.log('Adicionando...') : console.log('Editando...')
+    console.log('Adicionando...')
 }
-onMounted(() => {
-    console.log('isAdding:', isAdding)
-})
 </script>
 
 <template>
+    <div class="row justify-center q-mb-sm">
+        <q-btn
+            class="q-mx-sm"
+            size="lg"
+            round
+            color="info"
+            icon="add"
+            @click="onClick"
+        />
+    </div>
+
+    <!-- Dialog para adicionar produtos -->
     <q-dialog
         v-model="isAdding"
         persistent
@@ -75,4 +85,5 @@ onMounted(() => {
             </q-form>
         </div>
     </q-dialog>
+    <!-- Fim -->
 </template>

@@ -1,13 +1,11 @@
 <script setup>
-import Botoes from './components/Botoes.vue'
+import BotaoDialogsVue from './components/Botao&Dialogs.vue'
 import Tabela from './components/Tabela.vue'
-import logs from './components/logs.vue'
-import Confirm from './components/Confirm.vue'
+import TabelaLogs from './components/TabelaLogs.vue'
 
 import { ref } from 'vue'
 
-const tab = ref('prod')
-const botoes = ref('')
+const tab = ref('logs')
 </script>
 
 <template>
@@ -37,15 +35,17 @@ const botoes = ref('')
             name="prod"
             class="bg-grey-4"
         >
-            <Botoes ref="botoes" />
-            <Tabela class="q-mb-lg" />
+            <BotaoDialogsVue />
+            <Tabela />
         </q-tab-panel>
 
         <q-tab-panel
             name="logs"
             class="bg-grey-4"
         >
-            <logs />
+            <div class="row justify-center">
+                <TabelaLogs />
+            </div>
         </q-tab-panel>
     </q-tab-panels>
 </template>
