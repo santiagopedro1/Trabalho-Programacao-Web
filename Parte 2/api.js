@@ -8,8 +8,8 @@ app.use(express.json())
 app.listen(9000, () => console.log('server up'))
 
 // connect to the database
-client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true })
-client.connect(() => console.log('conectado'))
+client = new MongoClient('mongodb://webdev:webdev@localhost:27017/', { useNewUrlParser: true })
+client.connect(() => console.log('conectado ao mongo'))
 
 const produtos = client.db('produtos').collection('produtos')
 const logs = client.db('produtos').collection('logs')
