@@ -35,8 +35,8 @@ const tab = ref('logs')
             name="prod"
             class="bg-grey-4"
         >
-            <BotaoDialogsVue />
             <Tabela />
+            <BotaoDialogsVue />
         </q-tab-panel>
 
         <q-tab-panel
