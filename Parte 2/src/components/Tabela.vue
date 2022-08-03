@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+import Confirm from './Confirm.vue'
+
 const columns = [
 	{
 		name: 'id',
@@ -13,10 +15,12 @@ const columns = [
 	{ name: 'tipo', label: 'TIPO', field: 'tipo', sortable: true },
 	{ name: 'marca', label: 'MARCA', field: 'marca', sortable: true },
 	{ name: 'modelo', label: 'MODELO', field: 'modelo', sortable: true },
-	{ name: 'preço', label: 'PREÇO (R$)', field: 'preço', sortable: true },
+	{ name: 'preço', label: 'PREÇO (R$)', field: 'preço', sortable: true, format: (val, row) => `${val.toFixed(2)}` },
 	{ name: 'qtd', label: 'QUANTIDADE', field: 'quantidade', sortable: true },
 	{ name: 'ações', label: 'AÇÕES', field: 'ações', align: 'center' }
 ]
+
+const confirm = ref('')
 
 const pagination = ref({
 	rowsPerPage: 0
@@ -27,17 +31,14 @@ let loading = ref(true)
 let Editando = ref(false)
 let rows = ref([])
 
-function excluir(alvo) {
-	console.log('Excluindo...')
-	console.log(alvo.row.id, alvo.row.tipo, alvo.row.marca, alvo.row.preço, alvo.row.quantidade)
+function gatilhoExcluir(alvo) {
+	confirm.value.isConfirming = true
+	confirm.value.idDeletado = alvo
 }
 
 function editar(alvo) {
-	console.log(alvo.row)
-	produto_alvo.value = alvo.row
-	console.log('Editando...')
-	console.log(produto_alvo.id, produto_alvo.tipo, produto_alvo.marca, produto_alvo.preço, produto_alvo.quantidade)
-	Editando.value = true
+	const result = `${alvo.row._id}, ${alvo.row.tipo}, ${alvo.row.marca}, ${alvo.row.modelo}, ${alvo.row.preço}, ${alvo.row.quantidade}`
+	console.log('Editar...\n' + result)
 }
 
 function onSubmit() {
@@ -71,7 +72,6 @@ onMounted(() => {
 			:rows-per-page-options="[0]"
 			:filter="filter"
 			:grid="$q.screen.lt.md"
-			grid-header
 		>
 			<template v-slot:body-cell-ações="props">
 				<q-td :props="props">
@@ -82,21 +82,25 @@ onMounted(() => {
 						color="grey"
 						@click="editar(props)"
 						icon="edit"
-					></q-btn>
+					>
+						<q-tooltip> Editar </q-tooltip>
+					</q-btn>
 					<q-btn
 						dense
 						round
 						flat
 						color="grey"
-						@click="excluir(props)"
+						@click="gatilhoExcluir(props.row._id)"
 						icon="delete"
-					></q-btn>
+					>
+						<q-tooltip> Excluir </q-tooltip>
+					</q-btn>
 				</q-td>
 			</template>
 
 			<template v-slot:top-right="props">
 				<q-input
-					dark
+					:dark="!$q.screen.lt.md"
 					outlined
 					dense
 					debounce="300"
@@ -108,80 +112,66 @@ onMounted(() => {
 					</template>
 				</q-input>
 			</template>
-			<template v-slot:loading>
-				<q-inner-loading
-					showing
-					color="primary"
-				/>
+
+			<template v-slot:item="props">
+				<div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<q-card dark>
+						<q-separator />
+						<q-list
+							dense
+							dark
+						>
+							<q-item
+								v-for="col in props.cols.filter(col => col.name !== 'ações')"
+								:key="col.name"
+								dark
+							>
+								<q-item-section>
+									<q-item-label>{{ col.label }}</q-item-label>
+								</q-item-section>
+								<q-item-section side>
+									<q-item-label caption>{{ col.value }}</q-item-label>
+								</q-item-section>
+							</q-item>
+							<!-- ações -->
+							<q-item dark>
+								<q-item-section>
+									<q-item-label>AÇÕES</q-item-label>
+								</q-item-section>
+								<q-item-section side>
+									<div class="row">
+										<q-btn
+											dense
+											round
+											flat
+											color="grey"
+											@click="editar(props)"
+											icon="edit"
+										>
+											<q-tooltip> Editar </q-tooltip>
+										</q-btn>
+										<q-btn
+											dense
+											round
+											flat
+											color="grey"
+											@click="excluir(props)"
+											icon="delete"
+										>
+											<q-tooltip> Excluir </q-tooltip>
+										</q-btn>
+									</div>
+								</q-item-section>
+							</q-item>
+							<!-- -->
+						</q-list>
+					</q-card>
+				</div>
 			</template>
 		</q-table>
 	</div>
-	<!-- Modal para Editar -->
-	<q-dialog
-		v-model="Editando"
-		persistent
-	>
-		<div class="bg-white q-py-md q-px-lg">
-			<p class="text-h4 q-mx-md">Editar produto</p>
-			<q-form
-				@submit="onSubmit"
-				class="q-gutter-md"
-			>
-				<q-input
-					v-model="produto_alvo.id"
-					type="text"
-					label="ID"
-					:rules="[val => !!val || 'ID é obrigatório', val => /^[0-9]*$/.test(val) || 'ID deve ser um número']"
-					dense
-					disable
-				/>
-				<q-input
-					v-model="produto_alvo.tipo"
-					type="text"
-					label="Tipo"
-					:rules="[val => !!val || 'Tipo é obrigatório']"
-					dense
-					disable
-				/>
-				<q-input
-					v-model="produto_alvo.marca"
-					type="text"
-					label="Marca"
-					:rules="[val => !!val || 'Marca é obrigatório']"
-					dense
-					disable
-				/>
-				<q-input
-					v-model="produto_alvo.preço"
-					type="text"
-					label="Preço"
-					:rules="[val => !!val || 'Preço é obrigatório', val => /^\d+(,\d{1,2})?$/.test(val) || 'Preço deve ser um número']"
-					dense
-				/>
-				<q-input
-					v-model="produto_alvo.quantidade"
-					type="text"
-					label="Quantidade"
-					:rules="[val => !!val || 'Quantidade é obrigatório', val => /^[0-9]*$/.test(val) || 'Quantidade deve ser um número']"
-					dense
-				/>
-				<div>
-					<q-btn
-						label="OK"
-						type="submit"
-						color="green"
-					/>
-					<q-btn
-						label="Cancelar"
-						color="red"
-						flat
-						class="q-ml-sm"
-						@click="Editando = false"
-					/>
-				</div>
-			</q-form>
-		</div>
-	</q-dialog>
+
+	<Confirm ref="confirm" />
 </template>
 
 <style>
