@@ -56,5 +56,6 @@ onMounted(() => {
 		v-model:pagination="pagination"
 		:rows-per-page-options="[0]"
 		hide-bottom
+		:grid="$q.screen.lt.md"
 	/>
 </template>
