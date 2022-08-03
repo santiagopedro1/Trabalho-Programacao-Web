@@ -1,11 +1,17 @@
 <script setup>
-import BotaoDialogsVue from './components/Botao&Dialogs.vue'
+import Modal from './components/Modal.vue'
 import Tabela from './components/Tabela.vue'
 import TabelaLogs from './components/TabelaLogs.vue'
 
 import { ref } from 'vue'
 
 const tab = ref('prod')
+const modal = ref('')
+
+function onClick() {
+	modal.value.gatilho.mostrar.value = true
+	modal.value.gatilho.ação.value = 'Adicionar'
+}
 </script>
 
 <template>
@@ -40,11 +46,12 @@ const tab = ref('prod')
 						color="primary"
 						icon="add"
 						label="ADICIONAR PRODUTO"
+						@click="onClick"
 					/>
 				</div>
 				<Tabela />
 			</div>
-			<BotaoDialogsVue />
+			<Modal ref="modal" />
 		</q-tab-panel>
 
 		<q-tab-panel
