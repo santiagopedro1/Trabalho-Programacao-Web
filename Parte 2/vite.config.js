@@ -6,11 +6,12 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        vue({
-            template: { transformAssetUrls }
-        }),
+	plugins: [
+		vue({
+			template: { transformAssetUrls },
+			reactivityTransform: true
+		}),
 
-        quasar()
-    ]
+		quasar()
+	]
 })
