@@ -25,22 +25,14 @@ const columns = [
 	{ name: 'qtd', label: 'QUANTIDADE', field: 'quantidade', sortable: true },
 	{ name: 'ações', label: 'AÇÕES', field: 'ações', align: 'center' }
 ]
-
+const pagination = {
+	rowsPerPage: 0,
+	sortBy: 'id',
+	descending: false
+}
 let filter = $ref('')
 let loading = $ref(true)
 let rows = $ref([])
-
-function gatilhoExcluir(alvo) {
-	confirm.isConfirming = true
-	confirm.idDeletado = alvo
-}
-
-function editar(alvo) {
-	alvo = alvo.row
-	modal.mostrar = true
-	modal.ação = 'Editar'
-	modal.produto_alvo = [alvo._id, alvo.categoria, alvo.marca, alvo.modelo, alvo.preço, alvo.quantidade]
-}
 
 onMounted(async () => {
 	rows = await GetAllProducts()
@@ -67,12 +59,12 @@ onMounted(async () => {
 				binary-state-sort
 				:loading="loading"
 				hide-bottom
-				flat
-				dark
-				style="height: 400px"
-				:rows-per-page-options="[0]"
+				v-model:pagination="pagination"
 				:filter="filter"
 				:grid="$q.screen.lt.md"
+				flat
+				dark
+				class="table"
 			>
 				<template v-slot:body-cell-ações="props">
 					<q-td :props="props">
@@ -91,7 +83,7 @@ onMounted(async () => {
 							round
 							flat
 							color="grey"
-							@click="gatilhoExcluir(props.row._id)"
+							@click="$emit('EvntConfirm', props.row)"
 							icon="delete"
 						>
 							<q-tooltip> Excluir </q-tooltip>
@@ -174,7 +166,7 @@ onMounted(async () => {
 
 <style>
 table thead th:nth-child(n):not(i) {
-	font-size: 1.15rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 }
 

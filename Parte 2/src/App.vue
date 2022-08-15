@@ -1,16 +1,27 @@
 <script setup>
 import Modal from './components/Modal.vue'
-import Tabela from './components/Tabela.vue'
+import Produtos from './components/Produtos.vue'
 import TabelaLogs from './components/TabelaLogs.vue'
+import Confirm from './components/Confirm.vue'
 
-import { ref } from 'vue'
+const tab = $ref('prod')
+const modal = $ref('')
+const confirm = $ref('')
 
-const tab = ref('prod')
-const modal = ref('')
+function mostrarModal(ação, produto) {
+	modal.mostrar = true
+	modal.ação = ação
+	for (const key in produto) {
+		if (Object.hasOwnProperty.call(produto, key)) {
+			modal.produto_alvo[key] = produto[key]
+		}
+	}
+	modal.dadosOriginais = produto
+}
 
-function onClick() {
-	modal.value.gatilho.mostrar.value = true
-	modal.value.gatilho.ação.value = 'Adicionar'
+function mostrarConfirm(produto) {
+	confirm.mostrar = true
+	confirm.produto = produto
 }
 </script>
 
@@ -18,7 +29,7 @@ function onClick() {
 	<q-tabs
 		class="text-white bg-black"
 		v-model="tab"
-		active-color="green"
+		active-color="primary"
 	>
 		<q-tab
 			name="prod"
@@ -40,18 +51,16 @@ function onClick() {
 			name="prod"
 			class="bg-grey-4"
 		>
-			<div class="column">
-				<div class="self-center q-mb-md">
-					<q-btn
-						color="primary"
-						icon="add"
-						label="ADICIONAR PRODUTO"
-						@click="onClick"
-					/>
-				</div>
-				<Tabela />
-			</div>
+			<!-- Painel Produtos -->
+
+			<Produtos
+				@EvntModal="mostrarModal"
+				@EvntConfirm="mostrarConfirm"
+			/>
+
 			<Modal ref="modal" />
+			<Confirm ref="confirm" />
+			<!---->
 		</q-tab-panel>
 
 		<q-tab-panel
@@ -64,3 +73,12 @@ function onClick() {
 		</q-tab-panel>
 	</q-tab-panels>
 </template>
+
+<style>
+/* css reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+</style>

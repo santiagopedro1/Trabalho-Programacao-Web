@@ -6,13 +6,14 @@ export async function GetAllProducts() {
 	return produtos.data
 }
 
-export function updateProduto(id, mudança) {
+export function updateProduto(produto, mudança) {
 	//make an axios put request to update the product
+	console.log(mudança)
 	axios({
 		method: 'put',
 		url: 'http://localhost:9000/produtos',
 		data: {
-			id: id,
+			id: produto[0],
 			mudança: mudança
 		}
 	})
@@ -20,9 +21,24 @@ export function updateProduto(id, mudança) {
 			console.log(response)
 			Notify.create({
 				message: 'Produto atualizado com sucesso',
-				color: 'positive'
+				color: 'positive',
+				timeout: 3000
 			})
-			return 1
+			let velho = mudança.nome == 'preço' ? produto[4] : produto[5]
+			addLog([
+				'Editar',
+				`ID: ${produto[0]}, ${produto[1]} ${produto[2]} ${produto[3]}\nMudou ${mudança.nome} de ${
+					mudança.nome == 'preço'
+						? Intl.NumberFormat('pt-br', {
+								style: 'currency',
+								currency: 'BRL'
+						  }).format(velho)
+						: velho
+				} para ${
+					mudança.nome == 'preço' ? Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(mudança.novo) : mudança.novo
+				}`
+			])
+			return response
 		})
 		.catch(error => {
 			console.log(error)
@@ -30,19 +46,21 @@ export function updateProduto(id, mudança) {
 		})
 }
 
-export function deleteProduto(id) {
+export function deleteProduto(produto) {
 	//make an axios delete request to delete the product
 	axios({
 		method: 'delete',
-		url: 'http://localhost:9000/produtos/' + id
+		url: 'http://localhost:9000/produtos/' + produto[0]
 	})
 		.then(response => {
 			Notify.create({
 				message: 'Produto excluído com sucesso',
-				color: 'positive'
+				color: 'positive',
+				timeout: 3000
 			})
-			console.log(response)
-			return 1
+			console.log(response.data)
+			addLog(['Remover', `ID: ${produto[0]}, ${produto[1]} ${produto[2]} ${produto[3]}`])
+			return response
 		})
 		.catch(error => {
 			console.log(error)
@@ -56,21 +74,23 @@ export function addProduto(produto) {
 		method: 'post',
 		url: 'http://localhost:9000/produtos',
 		data: {
-			_id: produto[0],
+			_id: Number(produto[0]),
 			categoria: produto[1],
 			marca: produto[2],
 			modelo: produto[3],
-			preço: produto[4],
-			quantidade: produto[5]
+			preço: Number(produto[4]),
+			quantidade: Number(produto[5])
 		}
 	})
 		.then(response => {
 			Notify.create({
 				message: 'Produto adicionado com sucesso',
-				color: 'positive'
+				color: 'positive',
+				timeout: 3000
 			})
 			console.log(response)
-			return 1
+			addLog(['Adicionar', `ID: ${produto[0]} ${produto[1]} ${produto[2]} ${produto[3]}`])
+			return response
 		})
 		.catch(error => {
 			console.log(error)
@@ -83,7 +103,7 @@ export async function GetAllLogs() {
 	return response.data
 }
 
-export function addLog(log) {
+function addLog(log) {
 	//make an axios post request to add the log
 	axios({
 		method: 'post',
