@@ -1,22 +1,32 @@
 <script setup>
 import { ref } from 'vue'
-let isConfirming = ref(false)
-let idDeletado = ref('')
+
+import { deleteProduto } from '../DB_functions'
+
+let mostrar = ref(false)
+let produto = ref('')
 
 function confirmadoDelete() {
-	//Deletar elemento do bd
-	console.log('Deletando ' + idDeletado.value)
+	deleteProduto([
+		Number(produto.value._id),
+		produto.value.categoria,
+		produto.value.marca,
+		produto.value.modelo,
+		Number(produto.value.preço),
+		Number(produto.value.quantidade)
+	])
+	mostrar.value = false
 }
 
 defineExpose({
-	isConfirming,
-	idDeletado
+	mostrar,
+	produto
 })
 </script>
 
 <template>
 	<q-dialog
-		v-model="isConfirming"
+		v-model="mostrar"
 		persistent
 	>
 		<div class="bg-white q-py-md q-px-lg">
@@ -28,7 +38,7 @@ defineExpose({
 					color="red"
 					flat
 					class="q-ml-sm"
-					@click="isConfirming = false"
+					@click="mostrar = false"
 				/>
 				<q-btn
 					label="Confirmar"
@@ -39,5 +49,3 @@ defineExpose({
 		</div>
 	</q-dialog>
 </template>
-
-<style scoped></style>

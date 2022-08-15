@@ -5,7 +5,7 @@ import { GetAllProducts } from '../DB_functions'
 
 const columns = [
 	{
-		name: 'id',
+		name: '_id',
 		required: true,
 		label: 'ID',
 		align: 'left',
@@ -14,7 +14,7 @@ const columns = [
 	},
 	{ name: 'categoria', label: 'CATEGORIA', field: 'categoria', sortable: true },
 	{ name: 'marca', label: 'MARCA', field: 'marca', sortable: true },
-	{ name: 'modelo', label: 'MODELO', field: 'modelo', sortable: false },
+	{ name: 'modelo', label: 'MODELO', field: 'modelo' },
 	{
 		name: 'preço',
 		label: 'PREÇO',
@@ -25,11 +25,11 @@ const columns = [
 	{ name: 'qtd', label: 'QUANTIDADE', field: 'quantidade', sortable: true },
 	{ name: 'ações', label: 'AÇÕES', field: 'ações', align: 'center' }
 ]
-const pagination = {
+const pagination = $ref({
 	rowsPerPage: 0,
-	sortBy: 'id',
+	sortBy: '_id',
 	descending: false
-}
+})
 let filter = $ref('')
 let loading = $ref(true)
 let rows = $ref([])
@@ -55,16 +55,16 @@ onMounted(async () => {
 				title="Produtos"
 				:rows="rows"
 				:columns="columns"
-				row-key="id"
+				row-key="_id"
 				binary-state-sort
 				:loading="loading"
 				hide-bottom
+				virtual-scroll
 				v-model:pagination="pagination"
 				:filter="filter"
 				:grid="$q.screen.lt.md"
 				flat
 				dark
-				class="table"
 			>
 				<template v-slot:body-cell-ações="props">
 					<q-td :props="props">
@@ -76,7 +76,7 @@ onMounted(async () => {
 							@click="$emit('EvntModal', 'Editar', props.row)"
 							icon="edit"
 						>
-							<q-tooltip> Editar </q-tooltip>
+							<q-tooltip>Editar produto</q-tooltip>
 						</q-btn>
 						<q-btn
 							dense
@@ -86,7 +86,7 @@ onMounted(async () => {
 							@click="$emit('EvntConfirm', props.row)"
 							icon="delete"
 						>
-							<q-tooltip> Excluir </q-tooltip>
+							<q-tooltip>Excluir produto</q-tooltip>
 						</q-btn>
 					</q-td>
 				</template>
@@ -165,12 +165,15 @@ onMounted(async () => {
 </template>
 
 <style>
-table thead th:nth-child(n):not(i) {
-	font-size: 1.5rem;
+.q-table__container {
+	height: 450px;
+}
+table thead th:nth-child(n) {
+	font-size: 1.3rem;
 	font-weight: bold;
 }
 
 table tbody td:nth-child(n) {
-	font-size: 1.15rem;
+	font-size: 1.1rem;
 }
 </style>
