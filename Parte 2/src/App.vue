@@ -26,23 +26,33 @@ function mostrarConfirm(produto) {
 </script>
 
 <template>
-	<q-toolbar class="bg-black cloumn justify-center">
+	<q-toolbar
+		v-if="!$q.screen.lt.md"
+		class="bg-black cloumn justify-center"
+	>
 		<q-toolbar-title class="text-white shrink">Inventory Manager</q-toolbar-title>
-		<div v-if="!$q.screen.lt.md">
-			<q-tabs
-				class="text-white"
-				v-model="tab"
-				active-color="primary"
-			>
-				<q-tab name="prod"><strong>PRODUTOS</strong></q-tab>
-				<q-tab name="logs"><strong>LOGS</strong></q-tab>
-			</q-tabs>
-		</div>
+		<q-tabs
+			class="text-white"
+			v-model="tab"
+			active-color="primary"
+		>
+			<q-tab name="prod"><strong>PRODUTOS</strong></q-tab>
+			<q-tab name="logs"><strong>LOGS</strong></q-tab>
+		</q-tabs>
 		<q-space />
 	</q-toolbar>
 
 	<div v-if="$q.screen.lt.md">
-		<q-toolbar class="bg-black column justify-center">
+		<q-toolbar
+			v-if="$q.screen.lt.md"
+			class="bg-black"
+		>
+			<q-toolbar-title class="text-white shrink">Inventory Manager</q-toolbar-title>
+		</q-toolbar>
+		<q-toolbar
+			inset
+			class="bg-black"
+		>
 			<q-tabs
 				class="text-white"
 				v-model="tab"
