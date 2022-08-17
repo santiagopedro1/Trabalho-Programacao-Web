@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 const logsColumns = [
 	{
@@ -11,11 +11,10 @@ const logsColumns = [
 		sortable: false
 	},
 	{
-		name: 'produto_alvo',
+		name: 'descrição',
 		align: 'center',
-		label: 'PRODUTO ALVO',
-		field: 'produto',
-		format: (val, row) => `ID: ${val._id}, ${val.tipo} ${val.marca} ${val.modelo}`,
+		label: 'DESCRIÇÃO',
+		field: 'descrição',
 		sortable: false
 	},
 	{
@@ -28,8 +27,8 @@ const logsColumns = [
 	}
 ]
 
-const filter = ref('')
-let logsRow = ref([])
+let loading = $ref(true)
+let logsRow = $ref([])
 const pagination = {
 	rowsPerPage: 0,
 	sortBy: 'data',
@@ -40,8 +39,8 @@ onMounted(() => {
 	fetch('http://localhost:9000/logs')
 		.then(response => response.json())
 		.then(data => {
-			logsRow.value = data
-			loading.value = false
+			logsRow = data
+			loading = false
 		})
 })
 </script>
@@ -51,11 +50,26 @@ onMounted(() => {
 		title="Logs"
 		:rows="logsRow"
 		:columns="logsColumns"
-		row-key="timestamp"
+		row-key="data"
 		binary-state-sort
 		v-model:pagination="pagination"
-		:rows-per-page-options="[0]"
 		hide-bottom
 		:grid="$q.screen.lt.md"
-	/>
+		dark
+	>
+		<template v-slot:body-cell-descrição="props">
+			<td
+				class="text-center"
+				v-if="props.row.ação === 'Editar'"
+			>
+				{{ props.row.descrição.split(/\n/gm)[0] }}<br />{{ props.row.descrição.split(/\n/gm)[1] }}
+			</td>
+			<td
+				class="text-center"
+				v-else
+			>
+				{{ props.row.descrição }}
+			</td>
+		</template>
+	</q-table>
 </template>
